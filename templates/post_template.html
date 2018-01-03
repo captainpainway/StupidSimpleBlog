@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}} - Blog</title>
+    <meta name="author" content="Author">
+    <meta name="description" content="{{description}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/prism.css" media="all">
+</head>
+<body>
+    <header>
+        <div id="name"><a href="/">Your Name Here</a></div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog/" class="active">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+    <article>
+        <h1>{{title}}</h1>
+        <time>{{date}}</time>
+        {{post}}
+    </article>
+    <footer>
+        <div class="previous">« <a href="{{previousLink}}">{{previous}}</a></div>
+        <div class="next"><a href="{{nextLink}}">{{next}}</a> »</div>
+    </footer>
+</body>
+</html>

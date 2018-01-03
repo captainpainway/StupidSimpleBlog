@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url('../fonts/GlacialIndifference-Regular.otf');
+}
+
+body {
+    font-family: 'Glacial Indifference', sans-serif;
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #151515;
+}
+
+header {
+    border-bottom: solid 1px #ddd;
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#name {
+    font-size: 1.5em;
+    line-height: 1.5em;
+    padding-left: .5em;
+    text-align: center;
+}
+
+#name a {
+    text-decoration: none;
+    color: #151515;
+}
+
+nav ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+nav a {
+    line-height: 2em;
+    text-decoration: none;
+    display: block;
+    color: #151515;
+    transition: all 200ms ease-in;
+}
+
+nav a:hover {
+    background-color: #39cccc;
+    color: #fff;
+    transition: all 200ms ease-in;
+}
+
+nav a.active {
+    background-color: #39cccc;
+    color: #fff;
+}
+
+nav a.active:hover {
+    background-color: #2ea7a7;
+    color: #fff;
+    transition: all 200ms ease-in;
+}
+
+article, section {
+    padding: 4.5em 1em 1em 1em;
+}
+
+article a {
+    color: #248282;
+    text-decoration: none;
+}
+
+article time {
+    color: #555555;
+    font-size: 16px;
+}
+
+#posts {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    line-height: 1em;
+}
+
+section a {
+    color: #272822;
+    text-decoration: none;
+    transition: all 200ms ease-in;
+    margin: 0.5em 0;
+}
+
+section a:hover {
+    color: #248282;
+    text-decoration: none;
+    transition: all 200ms ease-in;
+}
+
+section time {
+    color: #555555;
+    margin: 0.5em 0;
+}
+
+pre {
+    background-color: #151515;
+    padding: 1em;
+}
+
+code {
+    color: #fff;
+    font-size: 16px;
+    animation: fadein 1s;
+}
+
+img {
+    margin: 0 auto;
+    animation: fadein 1s;
+    max-width: 100%;
+}
+
+.image {
+    text-align: center;
+}
+
+.fab {
+    font-size: 1.3em;
+    padding-left: 0.3em;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: solid 1px #dddddd;
+    padding: 1em 1em 3em 1em;
+}
+
+footer a {
+    color: #272822;
+    text-decoration: none;
+    transition: all 200ms ease-in;
+}
+
+footer a:hover {
+    color: #248282;
+    text-decoration: none;
+    transition: all 200ms ease-in;
+}
+
+.previous {
+    text-align: left;
+}
+
+.next {
+    text-align: right;
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1em;
+}
+
+.projects p {
+    color: #555555;
+    font-size: 16px;
+    margin: 0.5em;
+}
+
+.projects li {
+    margin: 0.5em 0;
+}
+
+@media (min-width: 800px) {
+    header {
+        max-width: 800px;
+        grid-template-columns: 1.5fr 1fr;
+    }
+
+    #name {
+        font-size: 2em;
+        text-align: left;
+    }
+
+    nav a {
+        line-height: 3em;
+    }
+
+    article, section {
+        padding: 3em 1em 1em 1em;
+    }
+
+    .projects {
+        grid-template-columns: 2fr 1fr;
+    }
+}
