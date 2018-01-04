@@ -107,6 +107,7 @@ section time {
 pre {
     background-color: #151515;
     padding: 1em;
+    overflow: auto;
 }
 
 code {

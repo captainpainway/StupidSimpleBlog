@@ -1,13 +1,15 @@
-const fs = require('fs');
-const showdown = require('showdown');
-const prism = require('prismjs');
-const jsdom = require('jsdom');
+const fs = require('fs'); // Node file system
+const showdown = require('showdown'); // Markdown processor
+const prism = require('prismjs'); // Styling for code tags
+const jsdom = require('jsdom'); // DOM emulator to process code tags
 const {JSDOM} = jsdom;
 
+// These variables are for creating post lists.
 let posts = [];
 let length = 0;
 let counter = 0;
 
+// Read the posts directory and get each file.
 fs.readdir('./posts/', (err, files) => {
     if(err) throw err;
     length = files.length;
@@ -21,6 +23,7 @@ fs.readdir('./posts/', (err, files) => {
     }
 });
 
+// Get the contents of each markdown file.
 const getContents = (file, fileName) => {
     fs.readFile(file, 'utf8', (err, contents) => {
         if(err) throw err;
@@ -28,6 +31,15 @@ const getContents = (file, fileName) => {
     });
 };
 
+/*
+    The first three lines of the markdown files contain extra info. Get the info and strip those out.
+    Run the markdown through the converter.
+    Then put that HTML into jsdom and look for code and image nodes.
+    Process code nodes with Prism so we get pretty code highlighting.
+    Give image tags an image class for custom CSS.
+    Push each post to an array and update the counter.
+    If the counter reaches the total number of posts, sort the posts by date and create post list and home pages.
+*/
 const processMarkdown = (markdown, fileName) => {
     const lines = markdown.split('\n');
     const title = lines[0].split(':')[1].trim();
@@ -39,16 +51,20 @@ const processMarkdown = (markdown, fileName) => {
     const text = converter.makeHtml(markdown);
 
     const dom = new JSDOM(text);
-    const codeNode = dom.window.document.querySelector('code');
-    const imgNode = dom.window.document.querySelector('img');
+    const codeNode = dom.window.document.getElementsByTagName('code');
+    const imgNode = dom.window.document.getElementsByTagName('img');
     if(codeNode) {
-        const code = codeNode.textContent;
-        const name = codeNode.className;
-        const processed = prism.highlight(code, prism['languages'][name]);
-        codeNode.innerHTML = processed;
+        for (var i = 0; i < codeNode.length; i++) {
+            const code = codeNode[i].textContent;
+            const name = codeNode[i].className;
+            const processed = prism.highlight(code, prism['languages'][name]);
+            codeNode[i].innerHTML = processed;
+        }
     }
     if(imgNode) {
-        imgNode.parentElement.className = 'image';
+        for (var i = 0; i < imgNode.length; i++) {
+            imgNode[i].parentElement.className = 'image';
+        }
     }
 
     const data = {
@@ -70,6 +86,7 @@ const processMarkdown = (markdown, fileName) => {
     }
 };
 
+// Insert dynamic content into the post template, add previous/next links, and write the file to the static folder.
 const processHTML = (posts) => {
     posts.forEach((data, i) => {
         fs.readFile('./templates/post_template.html', 'utf8', (err, contents) => {
@@ -97,6 +114,7 @@ const processHTML = (posts) => {
     });
 };
 
+// For each post in the posts array, create HTML as a string, place into the template, and write the file to the static directory.
 const postList = (posts) => {
     fs.readFile('./templates/list_template.html', 'utf8', (err, contents) => {
         if(err) throw err;
@@ -104,8 +122,7 @@ const postList = (posts) => {
         posts.forEach(post => {
             postList += `<time>${post.date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})}</time><a href="./posts/${post.dir}/">${post.title}</a>\n`
         });
-        const html = contents
-            .replace(/{{posts}}/g, postList);
+        const html = contents.replace(/{{posts}}/g, postList);
         fs.writeFile('./static/blog/index.html', html, err => {
             if(err) throw err;
             console.log(`Created blog index at /static/blog/`);
@@ -113,6 +130,7 @@ const postList = (posts) => {
     });
 };
 
+// Add the three newest posts to the home template and write the file to the static directory.
 const makeHomePage = (posts) => {
     fs.readFile('./templates/home_template.html', 'utf8', (err, contents) => {
         if(err) throw err;
@@ -122,11 +140,11 @@ const makeHomePage = (posts) => {
                 postList += `<time>${post.date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})}</time><a href="./blog/posts/${post.dir}/">${post.title}</a>\n`
             }
         });
-        const html = contents
-            .replace(/{{posts}}/g, postList);
+        const html = contents.replace(/{{posts}}/g, postList);
         fs.writeFile('./static/index.html', html, err => {
             if(err) throw err;
             console.log(`Created home page at /static/`);
         });
     });
 };
+
